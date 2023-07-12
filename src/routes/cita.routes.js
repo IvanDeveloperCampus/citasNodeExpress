@@ -14,6 +14,17 @@ storageCita
     } 
 
 })
+.get("/proximaCita/:id", async(req, res)=>{
+    try {
+        const connection= await getConnection();
+        let id=req.params.id
+        const [rows, fields] = await connection.execute('SELECT cit_fecha FROm cita WHERE cit_datosUsuario=? AND cit_fecha>CURDATE() ORDER BY cit_fecha ASC LIMIT 1;',[id]);
+        res.send(rows);
+      } catch (error) {
+        res.status(400).send(error.message);
+      } 
+  
+  })
 
 
 export default storageCita;
