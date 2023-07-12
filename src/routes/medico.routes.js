@@ -14,6 +14,17 @@ storageMedico
     } 
 
 })
+.get("/medicosAndConsultorios", async(req, res)=>{
+    try {
+        const connection= await getConnection();
+        const [rows, fields] = await connection.execute('SELECT medico.med_nombreCompleto, consultorio.cons_nombre from medico INNER JOIN consultorio ON medico.med_consultorio=consultorio.cons_codigo;');
+        res.send(rows);
+      } catch (error) {
+        res.status(400).send(error.message);
+      } 
+  
+  })
+
 
 
 export default storageMedico;
