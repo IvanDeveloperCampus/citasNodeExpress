@@ -39,6 +39,19 @@ storageCita
       } 
   
   })
+  .get("/citasFechaMedicoEspecifico/:idMedico", async(req, res)=>{
+    try {
+        const connection= await getConnection();
+        let med_nroMatriculaProsional=req.params.idMedico;
+        let fecha=req.body.fecha;
+        const [rows, fields] = await connection.execute('SELECT COUNT(*) as cantidad from cita INNER JOIN medico ON cita.cit_medico=? WHERE cita.cit_fecha=?',[med_nroMatriculaProsional,fecha]);
+        console.log(rows[0]['cantidad']);
+        res.send(rows);
+      } catch (error) {
+        res.status(400).send(error.message);
+      } 
+  
+  })
 
 
 export default storageCita;
