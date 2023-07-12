@@ -4,17 +4,22 @@ import dotenv from 'dotenv'
 dotenv.config();
 
 
-const connection=mysql.createPool({
+const pool = mysql.createPool({
     host: process.env.HOSTNAME,
-    user:process.env.NAME_USER,
+    user: process.env.NAME_USER,
     password: process.env.PASSWORD,
     database: process.env.DATABASE
-})
-
-const getConnection = () => {
-    return connection;
-};
-
-
-
-export default getConnection;
+  });
+  
+  const getConnection = async () => {
+    try {
+      const connection = await pool.getConnection();
+      return connection;
+    } catch (error) {
+      console.error('Error al obtener la conexión del pool:', error);
+    }
+  };
+  
+  
+  
+  export default getConnection;
