@@ -38,5 +38,17 @@ storageCita
   
   })
 
+  .get("/citasFechaEspecifica", async(req, res)=>{
+    try {
+        const connection= await getConnection();
+        let fecha=req.query.fecha;
+        const [rows, fields] = await connection.execute('SELECT * FROM `cita` WHERE cit_fecha=?;',[fecha]);
+        res.send(rows);
+      } catch (error) {
+        res.status(400).send(error.message);
+      } 
+  
+  })
+
 
 export default storageCita;
