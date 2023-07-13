@@ -1,5 +1,9 @@
 import { Router } from "express";
 import getConnection from '../db/database.js'
+import proxiUsuario from "../Middlewares/proxyUsuario.js";
+import proxiMedico from "../Middlewares/proxyMedico.js";
+import proxiCita from "../Middlewares/proxyCita.js";
+
 
 const storageCita=Router();
 
@@ -14,7 +18,7 @@ storageCita
     } 
 
 })
-.get("/proximaCita", async(req, res)=>{
+.get("/proximaCita",proxiUsuario, async(req, res)=>{
     try {
         const connection= await getConnection();
         let id=req.body.usu_id;
@@ -28,10 +32,11 @@ storageCita
 
 
 
-  .get("/citasFechaEspecifica", async(req, res)=>{
+  .get("/citasFechaEspecifica", proxiCita, async(req, res)=>{
     try {
         const connection= await getConnection();
-        let fecha=req.query.fecha;
+        let fecha=req.query.cit_fecha.substring(0,10);
+        console.log(fecha);
         const [rows, fields] = await connection.execute('SELECT * FROM `cita` WHERE cit_fecha=?;',[fecha]);
         res.send(rows);
       } catch (error) {
@@ -39,10 +44,13 @@ storageCita
       } 
   
   })
-  .get("/citasFechaMedicoEspecifico/:idMedico", async(req, res)=>{
+  .get("/citasFechaMedicoEspecifico/:idMedico",proxiMedico, async(req, res)=>{
     try {
+ 
+      console.log(req.params.med_nroMatriculaProfesional);
+      
         const connection= await getConnection();
-        let med_nroMatriculaProsional=req.params.idMedico;
+        let med_nroMatriculaProsional=req.params.med_nroMatriculaProfesional;
         let fecha=req.body.fecha;
         const [rows, fields] = await connection.execute('SELECT COUNT(*) as cantidad from cita INNER JOIN medico ON cita.cit_medico=? WHERE cita.cit_fecha=?',[med_nroMatriculaProsional,fecha]);
         console.log(rows[0]['cantidad']);
