@@ -62,6 +62,15 @@ storageCita
         res.status(400).send(error.message);
       } 
   })
+  .get("/citasRechazadas", async(req, res)=>{
+    try {
+        const connection= await getConnection();
+        const [rows, fields] = await connection.execute('SELECT cita.cit_fecha AS fecha, usuario.usu_nombre AS Paciente, medico.med_nombreCompleto AS Medico FROM cita INNER JOIN usuario on cita.cit_datosUsuario=usuario.usu_id INNER JOIN medico on cita.cit_medico=medico.med_nroMatriculaProfesional INNER JOIN estado_cita on cita.cit_estadoCita=estado_cita.estcita_id WHERE estado_cita.estcita_nombre="RECHAZADA";');
+        res.send(rows);
+      } catch (error) {
+        res.status(400).send(error.message);
+      } 
+  })
   
 
 
