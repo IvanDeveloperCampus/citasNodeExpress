@@ -52,6 +52,18 @@ storageCita
       } 
   
   })
+  .get("/citasPorGenero", async(req, res)=>{
+    try {
+        const connection= await getConnection();
+        let genero=req.query.genero;
+        const [rows, fields] = await connection.execute('SELECT cita.* FROM cita INNER JOIN usuario on cita.cit_datosUsuario=usuario.usu_id INNER JOIN genero on usuario.usu_genero=genero.gen_id WHERE genero.gen_abreviatura=?;',[genero]);
+        res.send(rows);
+      } catch (error) {
+        res.status(400).send(error.message);
+      } 
+  })
+  
+
 
 
 export default storageCita;
