@@ -14,9 +14,9 @@ storageUsuario
       } 
 
 })
-.get("/usuariosMedicoEspecifico", async(req, res)=>{
+.get("/usuariosMedicoEspecifico/:nroMatriculaMedico", async(req, res)=>{
   try {
-      let id=req.body.med_nroMatriculaProsional;
+      let id=req.params.nroMatriculaMedico;
       const connection= await getConnection();
       const [rows, fields] = await connection.execute('select DISTINCT usuario.usu_nombre from usuario INNER JOIN cita ON usuario.usu_id=cita.cit_datosUsuario INNER JOIN medico ON cita.cit_medico=medico.med_nroMatriculaProfesional WHERE medico.med_nroMatriculaProfesional=?;', [id]);
       res.send(rows);

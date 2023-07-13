@@ -31,7 +31,7 @@ storageCita
   .get("/citasFechaEspecifica", async(req, res)=>{
     try {
         const connection= await getConnection();
-        let fecha=req.body.fecha;
+        let fecha=req.query.fecha;
         const [rows, fields] = await connection.execute('SELECT * FROM `cita` WHERE cit_fecha=?;',[fecha]);
         res.send(rows);
       } catch (error) {
@@ -39,10 +39,10 @@ storageCita
       } 
   
   })
-  .get("/citasFechaMedicoEspecifico", async(req, res)=>{
+  .get("/citasFechaMedicoEspecifico/:idMedico", async(req, res)=>{
     try {
         const connection= await getConnection();
-        let med_nroMatriculaProsional=req.body.med_nroMatriculaProsional;
+        let med_nroMatriculaProsional=req.params.idMedico;
         let fecha=req.body.fecha;
         const [rows, fields] = await connection.execute('SELECT COUNT(*) as cantidad from cita INNER JOIN medico ON cita.cit_medico=? WHERE cita.cit_fecha=?',[med_nroMatriculaProsional,fecha]);
         console.log(rows[0]['cantidad']);

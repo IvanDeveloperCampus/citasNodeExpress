@@ -6,8 +6,9 @@ const storageMedico=Router();
 storageMedico
 .get("/getMedicos", async(req, res)=>{
   try {
+      let especialidad=req.query.especialidad;
       const connection= await getConnection();
-      const [rows, fields] = await connection.execute('SELECT medico.med_nombreCompleto FROM `medico` INNER JOIN especialidad ON med_especialidad=especialidad.esp_id WHERE especialidad.esp_nombre="Cardiologia";');
+      const [rows, fields] = await connection.execute('SELECT medico.med_nombreCompleto FROM `medico` INNER JOIN especialidad ON med_especialidad=especialidad.esp_id WHERE especialidad.esp_nombre=?;', [especialidad]);
       res.send(rows);
     } catch (error) {
       res.status(400).send(error.message);
