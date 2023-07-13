@@ -44,13 +44,11 @@ storageCita
       } 
   
   })
-  .get("/citasFechaMedicoEspecifico/:idMedico",proxiMedico, async(req, res)=>{
+  .get("/citasFechaMedicoEspecifico",proxiMedico, async(req, res)=>{
     try {
- 
-      console.log(req.params.med_nroMatriculaProfesional);
-      
+  
         const connection= await getConnection();
-        let med_nroMatriculaProsional=req.params.med_nroMatriculaProfesional;
+        let med_nroMatriculaProsional=req.query;
         let fecha=req.body.fecha;
         const [rows, fields] = await connection.execute('SELECT COUNT(*) as cantidad from cita INNER JOIN medico ON cita.cit_medico=? WHERE cita.cit_fecha=?',[med_nroMatriculaProsional,fecha]);
         console.log(rows[0]['cantidad']);
