@@ -17,6 +17,7 @@
   },
   "devDependencies": {
     "class-transformer": "0.5.1",
+    "class-validator": "0.14.0",
     "dotenv": "16.3.1",
     "moment": "2.29.4",
     "mysql2": "3.5.1",
