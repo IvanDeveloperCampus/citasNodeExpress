@@ -1,12 +1,14 @@
 import { Router } from "express";
 import getConnection from '../db/database.js'
+import proxyEspecialidad from "../Middlewares/proxyEspecialidad.js";
 
 const storageMedico=Router();
 
 storageMedico
-.get("/getMedicos", async(req, res)=>{
-  try {
-      let especialidad=req.query.especialidad;
+.get("/getMedicos", proxyEspecialidad, async(req, res)=>{
+try {
+    
+      let especialidad=req.query.esp_nombre;
       const connection= await getConnection();
       const [rows, fields] = await connection.execute('SELECT medico.med_nombreCompleto FROM `medico` INNER JOIN especialidad ON med_especialidad=especialidad.esp_id WHERE especialidad.esp_nombre=?;', [especialidad]);
       res.send(rows);

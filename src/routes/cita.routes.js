@@ -3,6 +3,9 @@ import getConnection from '../db/database.js'
 import proxiUsuario from "../Middlewares/proxyUsuario.js";
 import proxiMedico from "../Middlewares/proxyMedico.js";
 import proxiCita from "../Middlewares/proxyCita.js";
+import proxiGenero from "../Middlewares/proxyGenero.js";
+
+
 
 
 const storageCita=Router();
@@ -58,10 +61,12 @@ storageCita
       } 
   
   })
-  .get("/citasPorGenero", async(req, res)=>{
+  .get("/citasPorGenero",proxiGenero, async(req, res)=>{
+    
     try {
         const connection= await getConnection();
-        let genero=req.query.genero;
+        let genero=req.query.gen_abreviatura;
+        console.log(genero);
         const [rows, fields] = await connection.execute('SELECT cita.* FROM cita INNER JOIN usuario on cita.cit_datosUsuario=usuario.usu_id INNER JOIN genero on usuario.usu_genero=genero.gen_id WHERE genero.gen_abreviatura=?;',[genero]);
         res.send(rows);
       } catch (error) {

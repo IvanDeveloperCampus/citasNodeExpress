@@ -8,14 +8,13 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 import { Expose, Type } from 'class-transformer';
-import { IsDefined, MaxLength, MinLength } from 'class-validator';
-export class Especialidad {
+import { IsDefined, MaxLength } from 'class-validator';
+export class Genero {
 }
 __decorate([
-    Expose({ name: "especialidad" }),
-    IsDefined({ message: () => { throw { status: 401, message: 'el parametro password es obligatorio' }; } }),
-    MinLength(8, { message: () => { throw { status: 401, message: 'el nombre de la especialidad tiene min 8 caracteres' }; } }),
-    MaxLength(30, { message: () => { throw { status: 401, message: 'el nombre de la especialidad tiene max 30 caracteres' }; } }),
+    Expose({ name: "genero" }),
+    IsDefined({ message: () => { throw { status: 401, message: 'el parametro del genero es obligatorio' }; } }),
+    MaxLength(3, { message: () => { throw { status: 401, message: 'la abreviatura del genero tiene max 3 caracteres' }; } }),
     Type(() => String),
     __metadata("design:type", String)
-], Especialidad.prototype, "esp_nombre", void 0);
+], Genero.prototype, "gen_abreviatura", void 0);

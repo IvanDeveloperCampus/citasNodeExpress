@@ -8,6 +8,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 import { Expose, Transform } from 'class-transformer';
+import { IsDefined, MaxLength, MinLength } from 'class-validator';
 export class Usuario {
 }
 __decorate([
@@ -16,5 +17,8 @@ __decorate([
         return Math.floor(value);
     else
         throw { "status": 400, "message": "el id_product no cumple" }; }, { toClassOnly: true }),
+    IsDefined({ message: () => { throw { status: 401, message: 'el parametro id es obligatorio' }; } }),
+    MinLength(5, { message: () => { throw { status: 401, message: 'el id min es de 5' }; } }),
+    MaxLength(15, { message: () => { throw { status: 401, message: 'el id max es de 15' }; } }),
     __metadata("design:type", Number)
 ], Usuario.prototype, "usu_id", void 0);
