@@ -18,6 +18,7 @@ Crear el archivo .env en la raiz del proyecto tome como guia el .envexample
 ### 4. Para ejecutar el proyecto
 
 ​	npm run dev
+   npm run tsc
 
 ### 5. EndPoints
 
